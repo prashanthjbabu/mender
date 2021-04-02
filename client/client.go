@@ -463,7 +463,9 @@ func dialOpenSSL(ctx *openssl.Ctx, conf *Config, network string, addr string) (n
 	if err != nil {
 		return nil, err
 	}
-
+	if conf.NoVerify {
+		return conn, nil
+	}
 	v := conn.VerifyResult()
 	if v != openssl.Ok {
 		if v == openssl.CertHasExpired {
